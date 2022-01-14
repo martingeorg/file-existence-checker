@@ -1,6 +1,6 @@
 # File existence checker
 
-####Check if files from one folder, exist in another folder, regardless of their location within those folders
+Check if files from one folder, exist in another folder, regardless of their location within those folders
 
 ## What it is, how does it work and why it exists
 - Looks for files, which are present in **folder1** *(first argument)*, but are missing in **folder2** *(second argument)*
