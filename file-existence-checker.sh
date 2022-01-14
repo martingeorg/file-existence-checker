@@ -16,18 +16,18 @@ if ! parallel --version 2> /dev/null | grep -q 'GNU'; then
     exit
 fi
 
-if ! [ -r ./find-missing-files-in-second-folder.sh ]; then
+if ! [ -r ./file-existence-checker.sh ]; then
     echo "Please run the script from within the script folder."
     echo -e "This will prevent unexpected behavior.\n"
     exit
 fi
 
-if [ -z $folder1 ] || [ -z $folder2 ] || ! [ -r $folder1 ] || ! [ -r $folder2 ]; then
+if [ -z "$folder1" ] || [ -z "$folder2" ] || ! [ -r "$folder1" ] || ! [ -r "$folder2" ]; then
     echo -e "Please provide two different, existing and readable folders for comparison!\n"
     exit
 fi
 
-if [ $folder1 == $folder2 ]; then
+if [ "$folder1" == "$folder2" ]; then
     echo -e "WAKE UP! You've given the same folder twice!\n"
     exit
 fi
@@ -35,15 +35,15 @@ fi
 
 # Compare files
 
-echo -n "Found "; find $folder1 -type f | wc -l | tr -d '\n'; echo " files in '$folder1'"
-echo -n "Found "; find $folder2 -type f | wc -l | tr -d '\n'; echo " files in '$folder2'"
+echo -n "Found "; find "$folder1" -type f | wc -l | tr -d '\n'; echo " files in '$folder1'"
+echo -n "Found "; find "$folder2" -type f | wc -l | tr -d '\n'; echo " files in '$folder2'"
 echo -e "\nComparing contents of\n$folder1\nwith\n$folder2\nthis may take a while..."
 
 echo -e "\nGenerate hashes for files in '$folder1'"
-find $folder1 -type f | parallel --bar sha1sum {} > folder1-hashes
+find "$folder1" -type f | parallel --bar sha1sum {} > folder1-hashes
 
 echo -e "\nGenerate hashes for files in '$folder2'"
-find $folder2 -type f | parallel --bar sha1sum {} > folder2-hashes
+find "$folder2" -type f | parallel --bar sha1sum {} > folder2-hashes
 
 awk '{ print $1 }' ./folder1-hashes > folder1-hashes-only
 awk '{ print $1 }' ./folder2-hashes > folder2-hashes-only

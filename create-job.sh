@@ -12,7 +12,7 @@ folder1="./"
 # set folder2 path
 folder2="./"
 
-./find-missing-files-in-second-folder.sh \$folder1 \$folder2
+./file-existence-checker.sh \$folder1 \$folder2
 JOBFILECONTENT
 ) > ./$jobName
 
