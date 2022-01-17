@@ -1,5 +1,11 @@
 #!/bin/bash
 
+#hashing_method="md5sum"
+#hashing_method="sha1sum"
+#hashing_method="sha256sum"
+hashing_method="sha512sum"
+
+
 echo -e "*** File existence checker ***\n"
 
 folder1="$1"
@@ -40,10 +46,10 @@ echo -n "Found "; find "$folder2" -type f | wc -l | tr -d '\n'; echo " files in 
 echo -e "\nComparing contents of\n$folder1\nwith\n$folder2\nthis may take a while..."
 
 echo -e "\nGenerate hashes for files in '$folder1'"
-find "$folder1" -type f | parallel --bar sha1sum {} > folder1-hashes
+find "$folder1" -type f | parallel --bar $hashing_method {} > folder1-hashes
 
 echo -e "\nGenerate hashes for files in '$folder2'"
-find "$folder2" -type f | parallel --bar sha1sum {} > folder2-hashes
+find "$folder2" -type f | parallel --bar $hashing_method {} > folder2-hashes
 
 awk '{ print $1 }' ./folder1-hashes > folder1-hashes-only
 awk '{ print $1 }' ./folder2-hashes > folder2-hashes-only
